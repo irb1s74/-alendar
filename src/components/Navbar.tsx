@@ -21,15 +21,11 @@ const Navbar: FC = () => {
                     </React.Fragment>
                     :
                     <React.Fragment>
-                        <Menu theme="dark" mode='horizontal' selectable={false}>
-                            <Menu.Item style={{color: "#FFF"}}>
-
-                            </Menu.Item>
-
-                            <Menu.Item style={{color: "#FFF"}} onClick={() => router.push(RouteNames.LOGIN)}>
-                                Логин
-                            </Menu.Item>
-                        </Menu>
+                            <Menu theme="dark" mode='horizontal' selectable={false}>
+                                <Menu.Item onClick={() => router.push(RouteNames.LOGIN)}>
+                                    Логин
+                                </Menu.Item>
+                            </Menu>
                     </React.Fragment>
                 }
             </Row>
