@@ -12,14 +12,16 @@ export const AuthActionCreators = {
     login: (user_name: string, user_password: string) => async (dispatch: AppDispatch) => {
         try {
             dispatch(AuthActionCreators.setIsLoading(true));
-            const response = await axios.get<IUser[]>('./user.json');
+            const response = await axios.get<IUser[]>('./users.json');
             const mockUser = response.data.find(user => user.user_name === user_name && user.user_password === user_password)
+            console.log(mockUser);
             if (mockUser) {
                 localStorage.setItem('auth', 'true')
                 localStorage.setItem('auth', mockUser.user_name)
                 dispatch(AuthActionCreators.setIsAuth(true))
+                dispatch(AuthActionCreators.setUser(mockUser))
             } else {
-
+                dispatch(AuthActionCreators.setIsError('Некорректный логин или пароль'));
             }
         } catch (e) {
             dispatch(AuthActionCreators.setIsError('Произошла ошибка'));

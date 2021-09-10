@@ -8,7 +8,7 @@ const LoginForm: FC = () => {
     const dispatch = useDispatch()
 
     const auth = () => {
-        dispatch(AuthActionCreators.login('1', '0'))
+        dispatch(AuthActionCreators.login('user', '123'))
     }
     return (
         <Form
