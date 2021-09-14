@@ -1,7 +1,7 @@
 import {AuthActionEnum, SetAuthAction, SetErrorAction, SetIsLoadingAction, SetUserAction} from "./types";
 import {IUser} from "../../../models/IUser";
 import {AppDispatch} from "../../index";
-import axios from "axios";
+import UserService from "../../../api/UserService";
 
 export const AuthActionCreators = {
     setUser: (user: IUser): SetUserAction => ({type: AuthActionEnum.SET_USER, payload: user}),
@@ -12,14 +12,13 @@ export const AuthActionCreators = {
     login: (user_name: string, user_password: string) => async (dispatch: AppDispatch) => {
         try {
             dispatch(AuthActionCreators.setIsLoading(true));
-            const response = await axios.get<IUser[]>('./users.json');
+            const response = await UserService.getUsers()
             const mockUser = response.data.find(user => user.user_name === user_name && user.user_password === user_password)
-            console.log(mockUser);
             if (mockUser) {
                 localStorage.setItem('auth', 'true')
-                localStorage.setItem('auth', mockUser.user_name)
-                dispatch(AuthActionCreators.setIsAuth(true))
+                localStorage.setItem('user', mockUser.user_name)
                 dispatch(AuthActionCreators.setUser(mockUser))
+                dispatch(AuthActionCreators.setIsAuth(true))
             } else {
                 dispatch(AuthActionCreators.setIsError('Некорректный логин или пароль'));
             }
@@ -28,10 +27,10 @@ export const AuthActionCreators = {
         }
     },
     logout: () => async (dispatch: AppDispatch) => {
-        try {
+        localStorage.removeItem('auth')
+        localStorage.removeItem('user')
+        dispatch(AuthActionCreators.setIsAuth(false))
+        dispatch(AuthActionCreators.setUser({} as IUser))
 
-        } catch (e) {
-
-        }
     }
 }

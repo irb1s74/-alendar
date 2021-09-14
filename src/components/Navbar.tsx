@@ -1,31 +1,33 @@
 import React, {FC} from 'react';
 import {Layout, Menu, Row} from "antd";
 import {useHistory} from "react-router-dom";
-import {RouteNames} from "../router/inedx";
+import {RouteNames} from "../router";
 import {useTypedSelector} from "../hooks/useTypedSelector";
+import {useActions} from "../hooks/useActions";
 
 const Navbar: FC = () => {
     const router = useHistory()
-    const {isAuth} = useTypedSelector(state => state.auth)
+    const {isAuth, user} = useTypedSelector(state => state.auth)
+    const {logout} = useActions();
     return (
         <Layout.Header>
             <Row justify='end'>
                 {isAuth ?
                     <React.Fragment>
-                        <Menu theme="dark" mode='horizontal' selectable={false}>
-                            <Menu.Item style={{color: "#FFF"}}>
-                                irb1s
+                        <Menu mode={'horizontal'} theme="dark" selectable={false}>
+                            <Menu.Item key={0} style={{color: "#FFF"}}>
+                                {user.user_name}
                             </Menu.Item>
-                            <Menu.Item onClick={() => router.push(RouteNames.LOGIN)}>Выйти</Menu.Item>
+                            <Menu.Item key={1} onClick={logout}>Выйти</Menu.Item>
                         </Menu>
                     </React.Fragment>
                     :
                     <React.Fragment>
-                            <Menu theme="dark" mode='horizontal' selectable={false}>
-                                <Menu.Item onClick={() => router.push(RouteNames.LOGIN)}>
-                                    Логин
-                                </Menu.Item>
-                            </Menu>
+                        <Menu mode={'horizontal'} theme="dark" selectable={false}>
+                            <Menu.Item key={0} onClick={() => router.push(RouteNames.LOGIN)}>
+                                Логин
+                            </Menu.Item>
+                        </Menu>
                     </React.Fragment>
                 }
             </Row>

@@ -5,10 +5,10 @@
   },
   {
     "user_name": "admin",
-    "user_password": "321"
+    "user_password": "123"
   },
   {
-    "user_name": "irb1s",
-    "user_password": "312"
+    "user_name": "user2",
+    "user_password": "123"
   }
 ]
